@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="description" content="Watch comfi videos without Ads">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Molnár István || Мельник Степан">
+    <meta name="keywords" content="">
+    <meta name="theme-color" content="#050">
+    <title>No Ad YouTube</title>
+    <base target="_blank">
+    <style rel="stylesheet" type="text/css">
+    *:root{
+  font-size:16px;
+}
+*{
+  margin:0 auto;
+  box-sizing:border-box;
+}
+html{
+  
+}
+body#main{
+  background:#000;
+  color:#ffab;
+}
+body#main > *{
+  margin:1vh auto;
+}
+a{
+  pointer-events:none;
+  opacity:0;
+}
+body#main a{
+  pointer-events:auto;
+  opacity:1;
+  text-decoration:none;
+}
+input, button{
+  outline:none;
+}
+b{
+  font-weight:900;
+}
+i{
+  font-style:italic;
+}
+small{
+  font-size:.8rem;
+  font-weight:100;
+}
+.clearfix{
+  content:'';
+  display:block;
+  clear:both;
+}
+
+
+
+nav{
+  text-align:center;
+}
+nav > *{
+  zoom:1.3;
+}
+input[type='checkbox']{
+  vertical-align:sub;
+  filter:invert(1);
+}
+iframe{
+  width:360px;
+  height:calc(360px / 1.7777);
+  display:block;
+  border:2px outset #f54;
+  border-radius:4px;
+  z-index:99999;
+  position:relative;
+}
+textarea{
+  width:90%;
+  height:22px;
+  display:block;
+  border-radius:8px;
+  padding:4px;
+  background:#000;
+  color:#ffab;
+  font-size:10px;
+}
+button{
+  display:block;
+  zoom:1.5;
+  background:green;
+  border:2px outset orange;
+  border-radius:9999px;
+  position:relative;
+  left:30%;
+  text-shadow:1px 1px 2px #ff0;
+  box-shadow:2px 1px 7px 0 #0ff;
+}
+input[type="range"]{
+  filte:invert(1);
+  display:block;
+  width:95%;
+}
+#sas {
+  -webkit-appearance: none;
+  background: #f906;
+  outline: none;
+  opacity: .7;
+  height:8px;
+  border-radius:9999px;
+}
+#sas::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #f04;
+  cursor: pointer;
+  border-radius:50%;
+}
+article{
+  position:fixed;
+  top:0;
+  left:0;
+  margin:0 !important;
+  display:inline;
+  opacity:.66;
+  color:#ff0;
+}
+
+
+@media (min-width:700px){
+  iframe{
+    zoo:87%;
+  }
+}
+@media (min-width:1200px){
+  iframe{
+    zoom:180%;
+  }
+}
+
+    </style>
+  </head>
+  <body id="main">
+    <nav>
+      <select id="hour"></select>
+      <select id="minutes"></select>
+      <label>Alarm?</label>
+      <input type="checkbox" id="alarm" checked="true">
+    </nav>
+    <iframe id="frame" width="" height="" src="https://www.youtube.com/embed/e_QyfZgnxiI" title="No Ads YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <textarea id="link">https://www.youtube.com/watch?v=bUxd3jqCr94</textarea>
+    <button type="button" id="" onclick="past();">Paste URL</button>
+    <input id="sas" type="range" min="0" value="45" max="90">
+    <article id="deg"></article>
+    <script type="text/javascript">
+      console.clear();
+console.time();
+console.group();
+
+function past() {
+
+   navigator.clipboard.readText()
+.then(text => {
+document.getElementById("link").innerHTML = text;
+   })
+.catch(err => {
+document.getElementById("link").innerHTML = 'Failed to read clipboard contents: '+err;
+});
+}
+
+const genE = (e) => {
+  return document.createElement(e);
+};
+
+let list = (parent, end) => {
+  for (let a = 0; a < end; a++) {
+    let opt = genE('OPTION'),
+        inner = document.createTextNode(a);
+    opt.appendChild(inner);
+    parent.insertBefore(opt, null);
+    opt.value = a;
+  }
+}
+list(hour, 24);
+list(minutes, 60);
+
+( () => {
+  let d = new Date(),
+      h = d.getHours(),
+      m = d.getMinutes();
+  if (h == 23) {
+    h = 0;
+  }
+  if (m > 29) {
+    m = m + 30 - 60;
+  } else {
+    m = m + 30;
+  }
+  hour.value = h;
+  minutes.value = m;
+})();
+
+window.setInterval( () => {
+  let d = new Date(),
+      h = d.getHours(),
+      m = d.getMinutes();
+  if (alarm.checked === true) {
+    if (hour.value == h && minutes.value == m) {
+      let op = window.open('', '', '_blank');
+      op.document.write('Your time is running out..<br>' + h + ':' + m + ':' + d.getSeconds());
+      op.document.title = 'Get up! Alarm!';
+    }
+  }
+},(20 * 1000));
+
+// https://www.youtube.com/watch?v=bUxd3jqCr94
+
+// https://www.youtube.com/watch?v=e_QyfZgnxiI&t=5209s
+
+// https://www.youtube.com/embed/e_QyfZgnxiI
+
+// https://www.youtube.com/embed/bUxd3jqCr94
+
+let base = 'https://www.youtube.com/embed/',
+    RAM = '',
+    canvas = document.getElementById('frame'),
+    input = document.getElementById('link');
+
+let process = () => {
+  let raw,
+      ready;
+  if (input.value.includes('watch')) {
+    raw = input.value.replace('https://www.youtube.com/watch?v=', '');
+    ready = base + raw;
+    input.value = ready;
+  } else if (input.value.includes('youtu.be')) {
+    raw = input.value.replace('https://youtu.be/', '');
+    ready = base + raw;
+    input.value = ready;
+  }
+  if (RAM != input.value) {
+    canvas.src = input.value;
+    RAM = input.value;
+  }
+}
+window.setInterval(process, 4096);
+
+
+let rotating = () => {
+  frame.style.transform = 'rotate(' + eval(sas.value - 45) + 'deg)';
+  deg.innerHTML = eval(sas.value - 45) + '&#176;';
+  window.setTimeout(rotating, 64);
+}
+rotating();
+
+
+console.timeEnd();
+console.log('%c The program successfully was loaded', 'font-size:25px; color:#ff0;');
+    </script>
+  </body>
+</html>
