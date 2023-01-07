@@ -152,8 +152,8 @@ article{
     </nav>
     <iframe id="frame" width="" height="" src="https://www.youtube.com/embed/e_QyfZgnxiI" title="No Ads YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <textarea id="link">https://www.youtube.com/watch?v=bUxd3jqCr94</textarea>
-    <button type="button" id="" onclick="past();">Paste URL</button>
-    <input id="sas" type="range" min="0" value="45" max="90">
+    <button type="button" id="mee" onclick="past();" data-text="0">Paste URL</button>
+    <input id="sas" type="range" min="0" value="45" max="90" ondblclick="this.value='45'">
     <article id="deg"></article>
     <script type="text/javascript">
       console.clear();
@@ -169,6 +169,13 @@ document.getElementById("link").innerHTML = text;
 .catch(err => {
 document.getElementById("link").innerHTML = 'Failed to read clipboard contents: '+err;
 });
+  let me = document.getElementById('mee');
+  if(me.getAttribute('data-text') == '0') {
+    me.setAttribute('data-text', '1');
+    me.innerText = 'Refresh page';
+  } else if (me.getAttribute('data-text') == '1') {
+    location.reload();
+  }
 }
 
 const genE = (e) => {
