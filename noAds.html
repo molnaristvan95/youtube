@@ -148,7 +148,7 @@ article{
       <select id="hour"></select>
       <select id="minutes"></select>
       <label>Alarm?</label>
-      <input type="checkbox" id="alarm" checked="false">
+      <input type="checkbox" id="alarm">
     </nav>
     <iframe id="frame" width="" height="" src="https://www.youtube.com/embed/e_QyfZgnxiI" title="No Ads YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <textarea id="link">https://www.youtube.com/watch?v=bUxd3jqCr94</textarea>
@@ -256,7 +256,7 @@ let process = () => {
     RAM = input.value;
   }
 }
-window.setInterval(process, 1024);
+window.setInterval(process, (2048 + 1024));
 
 
 let rotating = () => {
